@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>DevNotes</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- =========================
+         Sidebar
+    ========================== -->
+
+    <aside class="sidebar">
+
+      <!-- Theme Toggle -->
+
+      <button
+        class="theme-toggle"
+        type="button"
+      >
+        Toggle Theme
+      </button>
+
+
+      <!-- App Title -->
+
+      <h1 class="app-title">
+        DevNotes
+      </h1>
+
+
+      <!-- Quick Note Button -->
+
+      <button
+        class="new-note-btn"
+        type="button"
+      >
+        + New Note
+      </button>
+
+
+      <!-- =========================
+           Note Form
+      ========================== -->
+
+      <form class="note-form">
+
+        <!-- Title -->
+
+        <div class="form-group">
+
+          <label for="titleInput">
+            Title
+          </label>
+
+          <input
+            type="text"
+            id="titleInput"
+            placeholder="Note title"
+            required
+          />
+
+        </div>
+
+
+        <!-- Content -->
+
+        <div class="form-group">
+
+          <label for="contentInput">
+            Content
+          </label>
+
+          <textarea
+            id="contentInput"
+            placeholder="Write your note..."
+            required
+          ></textarea>
+
+        </div>
+
+
+        <!-- Live Preview -->
+
+        <div class="preview-box">
+
+          <h3>Live Preview</h3>
+
+          <div class="preview-content">
+            Start typing to preview...
+          </div>
+
+        </div>
+
+
+        <!-- Submit -->
+
+        <button type="submit">
+          Add Note
+        </button>
+
+      </form>
+
+    </aside>
+
+
+    <!-- =========================
+         Main Content
+    ========================== -->
+
+    <main class="main-content">
+
+      <!-- Search -->
+
+      <header class="topbar">
+
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search notes..."
+          aria-label="Search notes"
+        />
+
+      </header>
+
+
+      <!-- Notes Grid -->
+
+      <section
+        class="notes-grid"
+        id="notesGrid"
+      ></section>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>

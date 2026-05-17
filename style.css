@@ -1,0 +1,498 @@
+/* =========================
+   CSS Variables
+========================= */
+
+:root {
+  --bg-color: #f3f4f6;
+
+  --text-color: #111827;
+
+  --card-color: #ffffff;
+
+  --sidebar-bg: #111827;
+
+  --sidebar-text: #ffffff;
+
+  --input-bg: #ffffff;
+
+  --input-border: #d1d5db;
+
+  --preview-bg: #ffffff;
+
+  --preview-text: #111827;
+
+  --muted-text: #6b7280;
+
+  --shadow-color:
+    rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   Dark Theme
+========================= */
+
+.dark-theme {
+  --bg-color: #111827;
+
+  --text-color: #f9fafb;
+
+  --card-color: #1f2937;
+
+  --sidebar-bg: #0f172a;
+
+  --sidebar-text: #f9fafb;
+
+  --input-bg: #374151;
+
+  --input-border: #4b5563;
+
+  --preview-bg: #1f2937;
+
+  --preview-text: #f9fafb;
+
+  --muted-text: #9ca3af;
+
+  --shadow-color:
+    rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================
+   Reset
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   Base Styles
+========================= */
+
+body {
+  font-family: Arial, sans-serif;
+
+  background: var(--bg-color);
+
+  color: var(--text-color);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+
+/* =========================
+   Layout
+========================= */
+
+.app-container {
+  display: flex;
+
+  min-height: 100vh;
+}
+
+
+/* =========================
+   Sidebar
+========================= */
+
+.sidebar {
+  width: 280px;
+
+  background: var(--sidebar-bg);
+
+  color: var(--sidebar-text);
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+}
+
+
+/* =========================
+   App Title
+========================= */
+
+.app-title {
+  font-size: 28px;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   Main Content
+========================= */
+
+.main-content {
+  flex: 1;
+
+  padding: 24px;
+}
+
+
+/* =========================
+   Topbar
+========================= */
+
+.topbar {
+  margin-bottom: 24px;
+}
+
+
+/* =========================
+   Inputs
+========================= */
+
+.search-input,
+.note-form input,
+.note-form textarea {
+  width: 100%;
+
+  padding: 12px;
+
+  background: var(--input-bg);
+
+  color: var(--text-color);
+
+  border: 1px solid var(--input-border);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.3s ease;
+}
+
+
+.search-input:focus,
+.note-form input:focus,
+.note-form textarea:focus {
+  border-color: #2563eb;
+}
+
+
+/* =========================
+   Form
+========================= */
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.form-group label {
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =========================
+   Textarea
+========================= */
+
+.note-form textarea {
+  min-height: 140px;
+
+  resize: vertical;
+}
+
+
+/* =========================
+   Preview Box
+========================= */
+
+.preview-box {
+  background: var(--preview-bg);
+
+  color: var(--preview-text);
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  min-height: 120px;
+
+  border: 1px solid var(--input-border);
+}
+
+
+.preview-box h3 {
+  margin-bottom: 12px;
+
+  font-size: 16px;
+}
+
+
+.preview-content {
+  line-height: 1.6;
+
+  color: var(--muted-text);
+}
+
+
+/* =========================
+   Notes Grid
+========================= */
+
+.notes-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================
+   Note Card
+========================= */
+
+.note-card {
+  background: var(--card-color);
+
+  color: var(--text-color);
+
+  padding: 20px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 10px 20px var(--shadow-color);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.3s ease;
+}
+
+
+.note-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 24px var(--shadow-color);
+}
+
+
+.note-card h2 {
+  margin-bottom: 12px;
+
+  font-size: 20px;
+}
+
+
+.note-card p {
+  line-height: 1.6;
+
+  color: var(--muted-text);
+}
+
+
+/* =========================
+   Note Actions
+========================= */
+
+.note-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+
+/* =========================
+   Buttons
+========================= */
+
+button {
+  border: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   Theme Toggle Button
+========================= */
+
+.theme-toggle {
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #8b5cf6;
+
+  color: white;
+}
+
+
+.theme-toggle:hover {
+  background: #7c3aed;
+}
+
+
+/* =========================
+   New Note Button
+========================= */
+
+.new-note-btn {
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+}
+
+
+.new-note-btn:hover {
+  background: #1d4ed8;
+}
+
+
+/* =========================
+   Add Note Button
+========================= */
+
+.note-form button {
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #10b981;
+
+  color: white;
+}
+
+
+.note-form button:hover {
+  background: #059669;
+}
+
+
+/* =========================
+   Edit Button
+========================= */
+
+.edit-btn {
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  background: #3b82f6;
+
+  color: white;
+}
+
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+
+/* =========================
+   Delete Button
+========================= */
+
+.delete-btn {
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  background: #ef4444;
+
+  color: white;
+}
+
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+
+/* =========================
+   Empty State
+========================= */
+
+.empty-state {
+  text-align: center;
+
+  padding: 40px;
+
+  color: var(--muted-text);
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .main-content {
+    padding: 16px;
+  }
+
+  .sidebar {
+    padding: 16px;
+  }
+
+  .note-card {
+    padding: 16px;
+  }
+}
