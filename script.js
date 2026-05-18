@@ -1,64 +1,75 @@
 // ==========================
-// Load Saved Theme
+// Load Theme
 // ==========================
 
-const savedTheme =
-  localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if (savedTheme === "dark") {
   document.body.classList.add("dark-theme");
 }
 
-
 // ==========================
 // State
 // ==========================
 
-let notes =
-  JSON.parse(localStorage.getItem("notes")) || [];
-
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
 // ==========================
 // DOM Elements
 // ==========================
 
-const notesGrid =
-  document.getElementById("notesGrid");
+const notesGrid = document.getElementById("notesGrid");
 
-const noteForm =
-  document.querySelector(".note-form");
+const noteForm = document.querySelector(".note-form");
 
-const titleInput =
-  document.getElementById("titleInput");
+const titleInput = document.getElementById("titleInput");
 
-const contentInput =
-  document.getElementById("contentInput");
+const contentInput = document.getElementById("contentInput");
 
-const searchInput =
-  document.querySelector(".search-input");
+const searchInput = document.querySelector(".search-input");
 
-const newNoteBtn =
-  document.querySelector(".new-note-btn");
+const newNoteBtn = document.querySelector(".new-note-btn");
 
-const themeToggle =
-  document.querySelector(".theme-toggle");
+const themeToggle = document.querySelector(".theme-toggle");
 
-const previewContent =
-  document.querySelector(".preview-content");
-
+const previewContent = document.querySelector(".preview-content");
 
 // ==========================
 // Save Notes
 // ==========================
 
 function saveNotes() {
-
-  localStorage.setItem(
-    "notes",
-    JSON.stringify(notes)
-  );
+  localStorage.setItem("notes", JSON.stringify(notes));
 }
 
+// ==========================
+// Update Stats
+// ==========================
+
+function updateStats() {
+
+  document.getElementById("totalNotes").textContent =
+    notes.length;
+
+  const totalCharacters = notes.reduce((total, note) => {
+    return total + note.content.length;
+  }, 0);
+
+  document.getElementById("totalCharacters").textContent =
+    totalCharacters;
+}
+
+// ==========================
+// Update Preview
+// ==========================
+
+function updatePreview() {
+
+  const content = contentInput.value.trim();
+
+  previewContent.textContent =
+    content || "Start typing to preview...";
+}
 
 // ==========================
 // Delete Note
@@ -66,15 +77,12 @@ function saveNotes() {
 
 function deleteNote(id) {
 
-  notes = notes.filter(
-    (note) => note.id !== id
-  );
+  notes = notes.filter(note => note.id !== id);
 
   saveNotes();
 
   renderNotes(searchInput.value);
 }
-
 
 // ==========================
 // Edit Note
@@ -82,51 +90,41 @@ function deleteNote(id) {
 
 function editNote(id) {
 
-  const noteToEdit = notes.find(
-    (note) => note.id === id
-  );
+  const note = notes.find(note => note.id === id);
 
-  if (!noteToEdit) return;
+  if (!note) return;
 
-  titleInput.value =
-    noteToEdit.title;
+  titleInput.value = note.title;
 
-  contentInput.value =
-    noteToEdit.content;
+  contentInput.value = note.content;
 
   updatePreview();
 
-  notes = notes.filter(
-    (note) => note.id !== id
-  );
+  notes = notes.filter(note => note.id !== id);
 
   saveNotes();
 
   renderNotes(searchInput.value);
 }
 
-
 // ==========================
-// Update Live Preview
+// Toggle Pin
 // ==========================
 
-function updatePreview() {
+function togglePin(id) {
 
-  const content =
-    contentInput.value.trim();
+  const note = notes.find(note => note.id === id);
 
-  if (content === "") {
+  if (!note) return;
 
-    previewContent.textContent =
-      "Start typing to preview...";
+  note.pinned = !note.pinned;
 
-    return;
-  }
+  notes.sort((a, b) => b.pinned - a.pinned);
 
-  previewContent.textContent =
-    content;
+  saveNotes();
+
+  renderNotes(searchInput.value);
 }
-
 
 // ==========================
 // Render Notes
@@ -136,44 +134,33 @@ function renderNotes(searchTerm = "") {
 
   notesGrid.innerHTML = "";
 
-  const filteredNotes = notes.filter((note) => {
+  const search = searchTerm.toLowerCase();
+
+  const filteredNotes = notes.filter(note => {
 
     return (
-      note.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-
-      note.content
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+      note.title.toLowerCase().includes(search) ||
+      note.content.toLowerCase().includes(search)
     );
   });
-
-
-  // Empty State
 
   if (filteredNotes.length === 0) {
 
     notesGrid.innerHTML = `
       <div class="empty-state">
         <h2>No Notes Found</h2>
-
-        <p>
-          Try creating a new note.
-        </p>
+        <p>Try creating a new note.</p>
       </div>
     `;
+
+    updateStats();
 
     return;
   }
 
+  filteredNotes.forEach(note => {
 
-  // Render Notes
-
-  filteredNotes.forEach((note) => {
-
-    const noteCard =
-      document.createElement("article");
+    const noteCard = document.createElement("article");
 
     noteCard.classList.add("note-card");
 
@@ -182,50 +169,53 @@ function renderNotes(searchTerm = "") {
 
       <p>${note.content}</p>
 
+      <small>
+        Created: ${note.createdAt}
+      </small>
+
       <div class="note-actions">
 
-        <button
-          class="edit-btn"
-          type="button"
-        >
+        <button class="pin-btn">
+          ${note.pinned ? "Unpin" : "Pin"}
+        </button>
+
+        <button class="edit-btn">
           Edit
         </button>
 
-        <button
-          class="delete-btn"
-          type="button"
-        >
+        <button class="delete-btn">
           Delete
         </button>
 
       </div>
     `;
 
+    // Delete
+    noteCard
+      .querySelector(".delete-btn")
+      .addEventListener("click", () => {
+        deleteNote(note.id);
+      });
 
-    // Delete Button
+    // Edit
+    noteCard
+      .querySelector(".edit-btn")
+      .addEventListener("click", () => {
+        editNote(note.id);
+      });
 
-    const deleteBtn =
-      noteCard.querySelector(".delete-btn");
-
-    deleteBtn.addEventListener("click", () => {
-      deleteNote(note.id);
-    });
-
-
-    // Edit Button
-
-    const editBtn =
-      noteCard.querySelector(".edit-btn");
-
-    editBtn.addEventListener("click", () => {
-      editNote(note.id);
-    });
-
+    // Pin
+    noteCard
+      .querySelector(".pin-btn")
+      .addEventListener("click", () => {
+        togglePin(note.id);
+      });
 
     notesGrid.appendChild(noteCard);
   });
-}
 
+  updateStats();
+}
 
 // ==========================
 // Add Note
@@ -235,28 +225,27 @@ noteForm.addEventListener("submit", (e) => {
 
   e.preventDefault();
 
-  const title =
-    titleInput.value.trim();
+  const title = titleInput.value.trim();
 
-  const content =
-    contentInput.value.trim();
+  const content = contentInput.value.trim();
 
-
-  // Prevent Empty Notes
-
-  if (!title || !content) {
-    return;
-  }
+  if (!title || !content) return;
 
   const newNote = {
+
     id: Date.now(),
 
     title,
 
-    content
+    content,
+
+    pinned: false,
+
+    createdAt:
+      new Date().toLocaleDateString()
   };
 
-  notes.push(newNote);
+  notes.unshift(newNote);
 
   saveNotes();
 
@@ -267,9 +256,8 @@ noteForm.addEventListener("submit", (e) => {
   updatePreview();
 });
 
-
 // ==========================
-// Search Notes
+// Search
 // ==========================
 
 searchInput.addEventListener("input", (e) => {
@@ -277,34 +265,26 @@ searchInput.addEventListener("input", (e) => {
   renderNotes(e.target.value);
 });
 
-
 // ==========================
-// Quick New Note
+// Quick Note
 // ==========================
 
 newNoteBtn.addEventListener("click", () => {
 
-  titleInput.value =
-    "New Note";
+  titleInput.value = "New Note";
 
-  contentInput.value =
-    "Start writing here...";
+  contentInput.value = "Start writing here...";
 
   updatePreview();
 
   titleInput.focus();
 });
 
-
 // ==========================
 // Live Preview
 // ==========================
 
-contentInput.addEventListener("input", () => {
-
-  updatePreview();
-});
-
+contentInput.addEventListener("input", updatePreview);
 
 // ==========================
 // Theme Toggle
@@ -312,21 +292,16 @@ contentInput.addEventListener("input", () => {
 
 themeToggle.addEventListener("click", () => {
 
-  document.body.classList.toggle(
-    "dark-theme"
-  );
+  document.body.classList.toggle("dark-theme");
 
   const isDarkMode =
-    document.body.classList.contains(
-      "dark-theme"
-    );
+    document.body.classList.contains("dark-theme");
 
   localStorage.setItem(
     "theme",
     isDarkMode ? "dark" : "light"
   );
 });
-
 
 // ==========================
 // Keyboard Shortcut
@@ -342,7 +317,6 @@ document.addEventListener("keydown", (e) => {
     titleInput.focus();
   }
 });
-
 
 // ==========================
 // Initial Render

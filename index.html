@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8" />
 
   <meta
@@ -16,20 +15,14 @@
     rel="stylesheet"
     href="style.css"
   />
-
 </head>
 
 <body>
 
   <div class="app-container">
 
-    <!-- =========================
-         Sidebar
-    ========================== -->
-
+    <!-- Sidebar -->
     <aside class="sidebar">
-
-      <!-- Theme Toggle -->
 
       <button
         class="theme-toggle"
@@ -38,15 +31,9 @@
         Toggle Theme
       </button>
 
-
-      <!-- App Title -->
-
       <h1 class="app-title">
         DevNotes
       </h1>
-
-
-      <!-- Quick Note Button -->
 
       <button
         class="new-note-btn"
@@ -55,17 +42,10 @@
         + New Note
       </button>
 
-
-      <!-- =========================
-           Note Form
-      ========================== -->
-
+      <!-- Note Form -->
       <form class="note-form">
 
-        <!-- Title -->
-
         <div class="form-group">
-
           <label for="titleInput">
             Title
           </label>
@@ -76,14 +56,9 @@
             placeholder="Note title"
             required
           />
-
         </div>
 
-
-        <!-- Content -->
-
         <div class="form-group">
-
           <label for="contentInput">
             Content
           </label>
@@ -93,56 +68,56 @@
             placeholder="Write your note..."
             required
           ></textarea>
-
         </div>
 
-
-        <!-- Live Preview -->
-
+        <!-- Preview -->
         <div class="preview-box">
-
           <h3>Live Preview</h3>
 
           <div class="preview-content">
             Start typing to preview...
           </div>
-
         </div>
-
-
-        <!-- Submit -->
 
         <button type="submit">
           Add Note
         </button>
 
       </form>
-
     </aside>
 
-
-    <!-- =========================
-         Main Content
-    ========================== -->
-
+    <!-- Main Content -->
     <main class="main-content">
 
-      <!-- Search -->
-
       <header class="topbar">
-
         <input
           type="text"
           class="search-input"
           placeholder="Search notes..."
-          aria-label="Search notes"
         />
-
       </header>
 
+      <!-- Loading -->
+      <div class="loading-state hidden">
+        Loading notes...
+      </div>
 
-      <!-- Notes Grid -->
+      <!-- Stats -->
+      <section class="stats-section">
 
+        <div class="stat-card">
+          <h3>Total Notes</h3>
+          <p id="totalNotes">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Total Characters</h3>
+          <p id="totalCharacters">0</p>
+        </div>
+
+      </section>
+
+      <!-- Notes -->
       <section
         class="notes-grid"
         id="notesGrid"
